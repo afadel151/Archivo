@@ -3,17 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+  
     public function index()
     {
         //
     }
-
+    public function upload(Request $request)
+    {
+        $file = Storage::putFile('photos',$request->file('file'));
+        return $file;
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -35,7 +41,7 @@ class FileController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**

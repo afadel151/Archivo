@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -10,8 +15,15 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        //
+    {   
+        if (Auth::user()->hasRole('super_admin')) {
+            $users = User::with('roles')->get();
+        return Inertia::render('Users',['users' => $users]);
+        }
+        else {
+            return view('notsuperuser');
+        }
+        
     }
 
     /**
@@ -19,7 +31,14 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::user()->hasRole('super_admin')) {
+            $roles = Role::all();
+            $permissions = Permission::all();
+        return Inertia::render('UsersCreate',['roles' => $roles , 'permissions' => $permissions]);
+        }
+        else {
+            return view('notsuperuser');
+        }
     }
 
     /**

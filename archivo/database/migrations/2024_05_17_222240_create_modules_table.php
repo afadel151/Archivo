@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
+            $table->string('module');
+            $table->unsignedBigInteger('battalion');
+            $table->char('sector',2);
+            $table->boolean('is_semesterial')->default(false);
+            $table->integer('semester')->nullable()->default(null);
+            $table->boolean('is_annual')->default(true);
             $table->timestamps();
         });
     }
