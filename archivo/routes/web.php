@@ -36,11 +36,18 @@ Route::middleware('auth')->group(function () {
         Route::prefix('/users')->group(function () {
             Route::get('/index',[UserController::class, 'index']);
             Route::get('/create',[UserController::class, 'create']);
+            Route::post('/store',[UserController::class, 'store']);
         });
      });
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('files', FileController::class);
 });
-
+Route::prefix('/api')->group(function () {
+    Route::group(['middleware' => ['role:super_admin']], function () {
+        Route::prefix('/users')->group(function () {
+            Route::post('/store',[UserController::class, 'store']);
+        });
+     });
+});
 require __DIR__.'/auth.php';

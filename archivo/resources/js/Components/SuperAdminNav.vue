@@ -34,7 +34,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 
 
 <template>
-    <div class="flex justify-between items-center space-x-10 px-10 w-screen h-20">
+    <div class="flex justify-between items-center space-x-10 px-10 w-screen h-14">
         <ApplicationLogo class="w-10 h-10"/>
         <Dialog>
             <DialogTrigger as-child>

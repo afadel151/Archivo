@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -18,7 +19,9 @@ class UserController extends Controller
     {   
         if (Auth::user()->hasRole('super_admin')) {
             $users = User::with('roles')->get();
-        return Inertia::render('Users',['users' => $users]);
+            $roles = Role::all();
+            $permissions = Permission::all();
+        return Inertia::render('Users',['users' => $users, 'permissions' => $permissions, 'roles' => $roles]);
         }
         else {
             return view('notsuperuser');
@@ -46,7 +49,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = User::create([
+            'name' => $request->username,
+            'email' => 'Hayawsayi@gmail.com',
+            'password' => Hash::make($request->password),
+        ]);
+        $user->assignRole(Role::find($request->userrole));
+        $user->load('roles');
+        return response()->json($user);
     }
 
     /**
