@@ -1,4 +1,5 @@
 <script setup>
+import { Link } from '@inertiajs/vue3';
 import { Copy } from 'lucide-vue-next'
 import { Button } from '@/Components/ui/button'
 import { Search } from 'lucide-vue-next'
@@ -28,7 +29,7 @@ import {
     MenubarSubTrigger,
     MenubarTrigger,
 } from '@/Components/ui/menubar';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 </script>
 
 
@@ -78,6 +79,11 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
             </DialogContent>
         </Dialog>
         <Menubar>
+            <MenubarMenu>
+                <MenubarTrigger>
+                    <Link href="/dashboard">Dashboard</Link>
+                </MenubarTrigger>
+            </MenubarMenu>
             <MenubarMenu>
                 <MenubarTrigger>File</MenubarTrigger>
                 <MenubarContent>

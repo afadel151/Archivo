@@ -49,12 +49,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        \Log::info('Storing resource : '.$request);
         $user = User::create([
-            'name' => $request->username,
-            'email' => 'Hayawsayi@gmail.com',
-            'password' => Hash::make($request->password),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
         ]);
-        $user->assignRole(Role::find($request->userrole));
+        $user->assignRole(Role::find($request->input('role')));
         $user->load('roles');
         return response()->json($user);
     }

@@ -45,8 +45,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    // public function hasRole(string $role)
-    // {
-    //     return 
-    // }
+    public function files(){
+        return $this->hasMany(File::class);
+    }
 }

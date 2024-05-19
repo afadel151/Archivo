@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Module;
+use App\Models\Schoolyear;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
@@ -25,7 +28,12 @@ class FileController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::user()->hasRole('admin')) {
+            $modules = Module::all();
+            $schoolyars = Schoolyear::all();
+        }else {
+            return view('notsuperuser');
+        }
     }
 
     /**

@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Module extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'semester',
+        'is_annual',
+        'is_semesterial',
+        'sector',
+        'battalion'
+    ];
+
+    public function battalion(){
+        return $this->belongsTo(Battalion::class);
+    }
+    public function files(){
+        return $this->hasMany(File::class);
+    }
 }

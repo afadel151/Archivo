@@ -21,8 +21,8 @@ Route::get('/file', function () {
     $file = User::find(2);
     $file->assignRole('admin');
     $file->load('roles');
-    return  view('file');
-}); 
+    return view('file');
+});
 Route::post('/file/upload', [FileController::class, 'upload'])->name('file.upload');
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -32,22 +32,29 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::group(['middleware' => ['role:super_admin']], function () {
-        Route::prefix('/users')->group(function () {
-            Route::get('/index',[UserController::class, 'index']);
-            Route::get('/create',[UserController::class, 'create']);
-            Route::post('/store',[UserController::class, 'store']);
-        });
-     });
+
+    Route::prefix('/users')->group(function () {
+        Route::get('/index', [UserController::class, 'index']);
+        Route::get('/create', [UserController::class, 'create']);
+        Route::post('/store', [UserController::class, 'store']);
+    });
+    Route::prefix('/files')->group(function () {
+        Route::get('/create', [FileController::class, 'create']);
+        Route::get('/', [FileController::class, 'index']);
+        // Route::post('/store', [UserController::class, 'store']);
+    });
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('files', FileController::class);
 });
 Route::prefix('/api')->group(function () {
-    Route::group(['middleware' => ['role:super_admin']], function () {
-        Route::prefix('/users')->group(function () {
-            Route::post('/store',[UserController::class, 'store']);
-        });
-     });
+
+    Route::prefix('/users')->group(function () {
+        Route::post('/store', [UserController::class, 'store']);
+    });
+    Route::prefix('/files')->group(function () {
+        Route::post('/store', [FileController::class, 'store']);
+    });
+
 });
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
