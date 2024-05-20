@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('type');
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('module_id')->constrained('modules')->cascadeOnDelete();
+            $table->foreignId('schoolyear_id')->constrained('schoolyears')->cascadeOnDelete();
             $table->string('category');
             $table->timestamps();
         });

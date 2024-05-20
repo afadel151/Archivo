@@ -1,6 +1,12 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head ,Link } from '@inertiajs/vue3';
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true,
+    }
+})
 </script>
 
 <template>
@@ -14,7 +20,8 @@ import { Head ,Link } from '@inertiajs/vue3';
         <div class="py-12">
             <div class="mx-auto sm:px-6 lg:px-8 max-w-7xl">
                 <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
-                    <div class="p-6 text-gray-900">You're logged in! See <Link href="/users">Users</Link></div>
+                    <div class="p-6 text-gray-900">You're logged in! See <Link href="/users">Users</Link>
+                        <Link :href="`/users/${user.id}/files`" >My Files</Link></div>
                 </div>
             </div>
         </div>

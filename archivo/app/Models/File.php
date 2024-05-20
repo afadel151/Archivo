@@ -15,6 +15,7 @@ class File extends Model
         'type',
         'user_id',
         'module_id',
+        'schoolyear_id',
         'category'
     ];
 
@@ -25,5 +26,8 @@ class File extends Model
 
     public function module(){
         return $this->belongsTo(Module::class);
+    }
+    public function schoolyear(){
+        return $this->belongsTo(Schoolyear::class);
     }
 }

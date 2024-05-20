@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Module;
+use App\Models\Schoolyear;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +30,20 @@ class UserController extends Controller
         }
         
     }
-
+    public function get_my_files($id){
+        if (Auth::user()->hasRole('admin')) {
+            $files =  User::find($id)->files;
+            $files->load('module','schoolyear');
+            \Log::info($files);
+            $user = User::find($id);
+            $schoolyears = Schoolyear::all();
+            $modules  = Module::all();
+            return Inertia::render('MyFiles',['files' => $files, 'user' => $user, 'modules' => $modules, 'schoolyears' => $schoolyears]);
+        }
+        else {
+            return view('notsuperuser');
+        }
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -63,7 +78,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function get_files(string $id)
     {
         //
     }

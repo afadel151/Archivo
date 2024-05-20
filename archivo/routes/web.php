@@ -25,7 +25,8 @@ Route::get('/file', function () {
 });
 Route::post('/file/upload', [FileController::class, 'upload'])->name('file.upload');
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $user = Auth::user();
+    return Inertia::render('Dashboard', ['user' => $user]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -37,24 +38,21 @@ Route::middleware('auth')->group(function () {
         Route::get('/index', [UserController::class, 'index']);
         Route::get('/create', [UserController::class, 'create']);
         Route::post('/store', [UserController::class, 'store']);
+        Route::get('/{id}/files', [UserController::class, 'get_my_files']);
     });
-    Route::prefix('/files')->group(function () {
-        Route::get('/create', [FileController::class, 'create']);
-        Route::get('/', [FileController::class, 'index']);
-        // Route::post('/store', [UserController::class, 'store']);
+    Route::prefix('/api')->group(function () {
+
+        Route::prefix('/users')->group(function () {
+            Route::post('/store', [UserController::class, 'store']);
+        });
+        Route::prefix('/files')->group(function () {
+            Route::post('/store', [FileController::class, 'store']);
+        });
+
     });
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('files', FileController::class);
 });
-Route::prefix('/api')->group(function () {
 
-    Route::prefix('/users')->group(function () {
-        Route::post('/store', [UserController::class, 'store']);
-    });
-    Route::prefix('/files')->group(function () {
-        Route::post('/store', [FileController::class, 'store']);
-    });
-
-});
 require __DIR__ . '/auth.php';
