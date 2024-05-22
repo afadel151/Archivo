@@ -78,9 +78,18 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function get_files(string $id)
+    public function studentpage()
     {
-        //
+        if (Auth::user()->hasRole('student')) {
+            $user = Auth::user();
+            $Student = $user->student;
+            $modules = $Student->modules();
+            $Schoolyears = Schoolyear::all();
+            return Inertia::render('GetFiles',['student'=>$Student,'modules'=>$modules,'schoolyears'=>$Schoolyears]);
+        }
+        else {
+            return view('notsuperuser');
+        }
     }
 
     /**

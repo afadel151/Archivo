@@ -219,9 +219,9 @@ const onSubmit = handleSubmit(async (values) => {
 <template>
     <SuperAdmin>
         <Toaster />
-        <div class="flex flex-col justify-start items-center space-y-4 mt-20">
+        <div class="flex flex-col justify-center items-center space-y-4 mt-20">
 
-            <div class="flex flex-col justify-center items-center border-2 rounded-2xl P-10">
+            <div class="flex flex-col justify-start items-center border-2 rounded-2xl P-10">
                 <div class="flex justify-between items-between gap-2 px-4 py-4 w-full">
                     <Input class="max-w-sm" placeholder="Filter emails..."
                         :model-value="table.getColumn('email')?.getFilterValue()"
@@ -245,7 +245,7 @@ const onSubmit = handleSubmit(async (values) => {
                     </DropdownMenu>
                 </div>
 
-                <Table>
+                <Table class="w-[80%]">
                     <TableHeader>
                         <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
 
@@ -267,7 +267,7 @@ const onSubmit = handleSubmit(async (values) => {
                 <div class="flex justify-end items-center space-x-2 py-4">
                     <div class="flex-1 text-muted-foreground text-sm">
                         {{ table.getFilteredSelectedRowModel().rows.length }} of
-                        {{ table.getFilteredRowModel().rows.length }} row(s) selected.
+                        {{ table.getFilteredRowModel().rows.length }} row(s)  selected.
                     </div>
                     <div class="space-x-2">
                         <Button variant="outline" size="sm" :disabled="!table.getCanPreviousPage()"
@@ -331,7 +331,7 @@ const onSubmit = handleSubmit(async (values) => {
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectGroup>
-                                                <SelectItem v-for="role in roles" :value="role.id">
+                                                <SelectItem v-for="role in props.roles" :value="role.id">
                                                     {{ role.name }}
                                                 </SelectItem>
                                             </SelectGroup>

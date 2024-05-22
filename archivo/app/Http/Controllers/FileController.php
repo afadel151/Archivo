@@ -14,7 +14,15 @@ class FileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    
+    public function get_files(Request $request)
+    {
+        \Log::info('request : '.$request->input('module_id'));
+        $module_id = $request->input('module_id');
+        $schoolyear_id = $request->input('schoolyear_id');
+        $files = File::where('module_id',$module_id)->where('schoolyear_id',$schoolyear_id)->get();
+        $files->load('module','schoolyear');
+        return response()->json($files);
+    }
      public function store(Request $request)
      {
          if (Auth::user()->hasRole('admin')) {
@@ -48,9 +56,11 @@ class FileController extends Controller
      }
  
   
-    public function index()
+    public function download(Request $request)
     {
-        //
+        $file = File::find($request->input('file_id'));
+        $path = Storage::path($file->path);
+        return response()->download($path);
     }
     public function upload(Request $request)
     {
@@ -80,6 +90,7 @@ class FileController extends Controller
     {
         
     }
+   
 
     /**
      * Show the form for editing the specified resource.
@@ -100,8 +111,9 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy( $id)
     {
-        //
+        File::destroy($id);
+        return response()->json('Deleted Successfully!');
     }
 }

@@ -10,7 +10,7 @@ import {
 <template>
     <div class="w-screen h-screen">
         <SuperAdminNav />
-        <div class="flex ">
+        <div class="flex justify-center items-center w-screen">
             <!-- <div class=" flex flex-col justify-start items-center w-[10%] h-full">
                 <Accordion type="single" class="w-full" collapsible>
                     <AccordionItem :key="1" :value="1">
