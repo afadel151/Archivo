@@ -20,14 +20,14 @@ class Section extends Model
     {
         return $this->belongsTo(Company::class);
     }
-    public function students() : HasMany
+    public function users() : HasMany
     {
-        return $this->hasMany(Student::class);
+        return $this->hasMany(User::class);
     }
 
-    public function battalion() : HasOneThrough
-    {
-        return $this->hasOneThrough(Battalion::class,Company::class);
-    }
+    // public function battalion()
+    // {
+    //     return $this->hasOneThrough(Battalion::class,Company::class);
+    // }
 
 }

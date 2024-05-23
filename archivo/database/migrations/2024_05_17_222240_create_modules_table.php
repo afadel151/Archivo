@@ -16,9 +16,7 @@ return new class extends Migration
             $table->string('module');
             $table->unsignedBigInteger('battalion');
             $table->char('sector',2);
-            $table->boolean('is_semesterial')->default(false);
-            $table->integer('semester')->nullable()->default(null);
-            $table->boolean('is_annual')->default(true);
+            $table->integer('semester');
             $table->timestamps();
         });
     }

@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('students', function (Blueprint $table) {
+        Schema::create('favourits', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('file_id')->constrained('files')->cascadeOnDelete();
         });
     }
 
@@ -21,8 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('studets', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('favourits');
     }
 };

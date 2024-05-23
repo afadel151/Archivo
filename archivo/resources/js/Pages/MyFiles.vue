@@ -154,7 +154,7 @@ const DeleteFile = async (id) => {
         console.log(response.data);
         toast({
             title: response.data,
-            variant: 'destructive',
+            variant: 'accent',
         })
         MyFiles.value = MyFiles.value.filter(file => file.id != id);
     } catch (error) {

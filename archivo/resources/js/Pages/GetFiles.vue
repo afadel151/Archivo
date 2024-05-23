@@ -12,6 +12,10 @@ const props = defineProps({
     schoolyears: {
         type: Array,
         required: true,
+    },
+    favourits:{
+        type: Array,
+        required: true,
     }
 })
 import { ref, computed } from 'vue';
@@ -49,6 +53,7 @@ import {
 import { Bookmark, Download } from 'lucide-vue-next';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 import { Separator } from '@/Components/ui/separator'
+import { Link } from '@inertiajs/vue3';
 const instance = axios.create({
     baseURL: 'http://127.0.0.1:8000/api/',
     withCredentials: true,
@@ -129,18 +134,20 @@ async function DownloadFile(file) {
     <div class="w-screen h-16 flex justify-between items-center">
         <ApplicationLogo class="h-16" />
         <div class="flex justify-center items-center w-fit pl-10">
-            <p class="text-nowrap text-2xl"> {{ props.student.first_name }} {{ props.student.last_name }} <span
+            <p class="text-nowrap text-2xl"> {{ props.student.name }}  <span
                     class="ml-5">Battalion:{{ props.student.section.company.battalion.battalion }} / Company {{
                         student.section.company.company }} {{ props.student.section.company.sector }} / Section {{
                         student.section.section }} </span></p>
         </div>
         <div class="w-full h-full flex justify-end items-center gap-4 px-10">
-            <Button variant="outline">
+            <Button variant="outline" class="relative">
+                <span class="absolute -top-2 -right-2 bg-slate-200 rounded-full h-5 w-5 text-black">{{ props.favourits.length }}</span>
                 <Bookmark />
             </Button>
             <Sheet>
                 <SheetTrigger as-child>
-                    <Button variant="outline">
+                    <Button variant="outline" >
+                       
                         Search
                     </Button>
                 </SheetTrigger>

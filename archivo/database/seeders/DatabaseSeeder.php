@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -15,13 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => sha1('12345678'),
-        ]);
         $SuperAdminRole = Role::create(['name' => 'super_admin']);
         $AdiminRole = Role::create(['name' => 'admin']);
         $StudentRole = Role::create(['name' => 'student']);
@@ -36,5 +30,12 @@ class DatabaseSeeder extends Seeder
         $SuperAdminRole->givePermissionTo([$CreateUsersP, $DeleteUsersP,$UpdateUsersP,$AddSchoolyearP,$DeleteSchoolyearP]);
         $AdiminRole->givePermissionTo([$UploadFileP, $DeleteFileP]);
         $StudentRole->givePermissionTo([$ViewFilesP]);
+        $this->call(SchoolYearSeeder::class);
+        $this->call(BattalionSeeder::class);
+        $this->call(CompanySeeder::class);
+        $this->call(SectionSeeder::class);
+        $this->call(ModuleSeeder::class);
+        $this->call(UserSeeder::class);
+        // zmarvin@example.com
     }
 }

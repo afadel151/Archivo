@@ -4,6 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -50,8 +53,22 @@ class User extends Authenticatable
         return $this->hasMany(File::class, 'user_id');
     }
 
-    public function student()
+ 
+    public function section() : BelongsTo
     {
-        return $this->hasOne(Student::class, 'user_id');
+        return $this->belongsTo(Section::class,'section_id');
     }
+    public function modules() 
+    {
+        $section = $this->section;
+        $company = $section->company;
+        $battalion = $company->battalion;
+        $modules = Module::where('battalion',$battalion->battalion)->where('sector',$company->sector)->get();
+        return $modules;
+    }
+    public function favourits() : BelongsToMany
+    {
+        return $this->belongsToMany(File::class,'favourits');
+    }
+
 }

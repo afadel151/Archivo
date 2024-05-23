@@ -1,8 +1,17 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import { Copy } from 'lucide-vue-next'
 import { Button } from '@/Components/ui/button'
 import { Search } from 'lucide-vue-next'
+const props = defineProps({
+    super_admin: {
+        type: boolean,
+        required: false,
+    },
+    schoolyears:{
+        type: Array,
+        required: false,
+    }
+})
 import {
     Dialog,
     DialogClose,
@@ -30,13 +39,14 @@ import {
     MenubarTrigger,
 } from '@/Components/ui/menubar';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
+import { boolean } from 'zod';
 </script>
 
 
 
 <template>
     <div class="flex justify-between items-center space-x-10 px-10 w-screen h-14">
-        <ApplicationLogo class="w-10 h-10"/>
+        <ApplicationLogo class="w-10 h-10" />
         <Dialog>
             <DialogTrigger as-child>
                 <div class="flex justify-center items-center space-x-2">
@@ -83,8 +93,24 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
                 <MenubarTrigger>
                     <Link href="/dashboard">Dashboard</Link>
                 </MenubarTrigger>
+
+
             </MenubarMenu>
-           
+            <MenubarMenu v-if="props.super_admin == true">
+                <MenubarTrigger >
+                    Schoolyears
+                </MenubarTrigger>
+                <MenubarContent>
+                    <MenubarItem v-for="schoolyear in props.schoolyears">
+                        <Link :href="'/schoolyears/'+schoolyear.id">{{ schoolyear.schoolyear }}</Link>
+                    </MenubarItem>
+                </MenubarContent>
+            </MenubarMenu>
+            <MenubarMenu>
+                <MenubarTrigger v-if="props.super_admin == true">
+                    <Link >Modules</Link>
+                </MenubarTrigger>
+            </MenubarMenu>
         </Menubar>
 
     </div>

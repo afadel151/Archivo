@@ -3,6 +3,7 @@
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SchoolyearController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Foundation\Application;
@@ -26,13 +27,8 @@ Route::get('/file', function () {
 Route::post('/file/upload', [FileController::class, 'upload'])->name('file.upload');
 Route::get('/dashboard', function () {
     $user = Auth::user();
-    // if ($user->hasRole('admin')) {
-    //     return redirect()->route('admin_page',['id'=>$user->id]);
-    // }
-    // if ($user->hasRole('super_admin')) {
-    //     return redirect()->route('super_admin_page');
-    // }
-    if ($user->hasRole('student')) {
+    
+    if ($user->is_student) {
         return redirect()->route('student_page',['id'=>$user->id]);
     }
     return Inertia::render('Dashboard', ['user' => $user]);
@@ -42,9 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+    Route::get('/schoolyears/{id}',[SchoolyearController::class, 'view']);
     Route::prefix('/users')->group(function () {
         Route::get('studentpage',[UserController::class, 'studentpage'])->name('student_page');
+        Route::get('studentfavourits',[UserController::class, 'studentfavourits'])->name('student_favourits');
         Route::get('/index', [UserController::class, 'index'])->name('super_admin_page');
         Route::get('/create', [UserController::class, 'create']);
         Route::post('/store', [UserController::class, 'store']);
@@ -54,6 +51,7 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('/users')->group(function () {
             Route::post('/store', [UserController::class, 'store']);
+            Route::post('/store_student', [UserController::class, 'store_student']);
         });
         Route::prefix('/files')->group(function () {
             Route::post('/store', [FileController::class, 'store']);
